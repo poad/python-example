@@ -1,0 +1,17 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[scripts]
+format = "autoflake --in-place --remove-unused-variables src/example_lib/__init__.py"
+lint = "flake8 --show-source ."
+
+[dev-packages]
+flake8 = "*"
+autoflake = "*"
+
+[packages]
+
+[requires]
+python_version = "3.8"

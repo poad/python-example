@@ -38,7 +38,7 @@ jobs:
             test: false
             lint: true
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Use Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:

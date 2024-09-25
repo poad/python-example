@@ -30,57 +30,27 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
-        python-version: [3.12]
         targets:
-          - path: pip-module-example/lib-module
-            test: false
-            lint: true
+          - numpy-matplotlib-example
+          - numpy-matplotlib-example
+
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+      - uses: actions/checkout@v4
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v3
         with:
-          python-version: ${{ matrix.python-version }}
+          enable-cache: true
+          cache-dependency-glob: |
+            **/pyproject.toml
 
-      - id: install-pipenv
-        name: Install pipenv
-        run: |
-          CUR=$(pwd)
-          cd ${{ matrix.targets.path }}
-          pip install --upgrade --no-cache-dir pip
-          pip install --no-cache-dir pipenv
-          cd ${CUR}
-        shell: bash
-
-      - id: cache-pipenv
-        name: Cache pipenv
-        uses: actions/cache@v2
+      - name: Use Python
+        uses: actions/setup-python@v5
         with:
-          path: ~/.local/share/virtualenvs
-          key: ${{ runner.os }}-pipenv-${{ hashFiles('Pipfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pipenv-
-
-      - id: sync-pipfile
-        name: Sync pipfile
-        run:  |
-          CUR=$(pwd)
-          cd ${{ matrix.targets.path }}
-          pipenv sync --dev
-          cd ${CUR}
-        shell: bash
+          python-version-file: "${{ matrix.targets }}/.python-version"
         
-      - name: Build and lint
-        run: |
-          CUR=$(pwd)
-          cd ${{ matrix.targets.path }}
-          pipenv run lint
-          pipenv run format
-          pip install .
-          if [ "${{ matrix.targets.path }}" == "true" ]; then
-            pipenv run test
-          fi
-          cd ${CUR}
-        shell: bash
+      - name: run
+        working-directory: ${{ matrix.targets }}
+        run: uv run hello.py

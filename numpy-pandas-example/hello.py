@@ -1,15 +1,17 @@
 import numpy as np
+import random
 import pandas as pd
 
 def main():
-    h = np.array([116.7, 156.5, 148.6, 158.0, 133.8, 153.6, 165.9, 127.6, 137.8, 169.8])
-    age = np.array([6.1, 14.0, 14.6, 17.0, 9.0, 12.0, 12.5, 8.0, 8.1, 16.0])
-    w = np.array([21.7, 50.0, 48.8, 52.5, 31.3, 45.2, 48.8, 27.0, 27.1, 60.5])
+    random.seed()
 
-    data = pd.DataFrame({'Heihgt': h, 'Age': age, 'Weight': w})
+    weights = np.array(list(map(lambda i: random.uniform(50.0, 100.0), range(20))))
+    v = np.var(weights)
 
-    print(f'{data}')
-
+    print(f'{pd.DataFrame({'体重': weights})}\n')
+    print(f'平均値: {np.mean(weights)}')
+    print(f'分散: {v}')
+    print(f'標準偏差: {np.sqrt(v)}')
 
 if __name__ == "__main__":
     main()

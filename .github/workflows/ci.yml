@@ -27,6 +27,7 @@ jobs:
         repository: ${{ github.event.repository.name }}
         owner: ${{ github.repository_owner }}
         merge_method: SQUASH
+        with_approve: 'true'
 
   build:
     runs-on: ubuntu-latest

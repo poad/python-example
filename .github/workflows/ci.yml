@@ -1,15 +1,14 @@
 name: Build and Test
- 
+
 on:
   push:
-    branches:    
-    - main 
+    branches:
+    - main
   pull_request:
     branches:
       - main
 
-  workflow_dispatch:
-
+  workflow_dispatch: null
 permissions:
   id-token: write
   contents: read
@@ -26,6 +25,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - name: Install the latest version of uv
         uses: astral-sh/setup-uv@v7
         with:
@@ -37,7 +38,7 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version-file: "${{ matrix.targets }}/.python-version"
-        
+
       - name: run
         working-directory: ${{ matrix.targets }}
         run: uv run hello.py

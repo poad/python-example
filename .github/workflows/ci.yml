@@ -24,7 +24,7 @@ jobs:
           - numpy-matplotlib-example
 
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v6.0.3
         with:
           persist-credentials: false
       - name: Install the latest version of uv
